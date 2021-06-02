@@ -5,7 +5,7 @@ metadata:
   namespace: escolahacker
 subjects:
 - kind: User
-  name: aluno
+  name: ambientelivre
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
