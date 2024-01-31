@@ -1,1 +1,28 @@
-
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: volume
+  labels:
+    k8s-app: volume
+    version: v1
+spec:
+  template:
+    metadata:
+      labels:
+        k8s-app: volume
+        version: v1
+        kubernetes.io/cluster-service: "true"
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: logs
+          mountPath: /home/ambientelivre/k8s/volumes/disk_redis # Criar este diretório com mkdir antes
+      volumes:
