@@ -1,22 +1,33 @@
-apiVersion: v1
+# Criar este diretório com mkdir antes
+# mkdir /home/ambientelivre/hacks/k8s/volumes/disk_redis -p
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: volume
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
   template:
     metadata:
+      labels:
+        app: redis
     spec:
       containers:
-      - name: redis
-        image: redis
-        resources:
-          limits:
-            memory: 200Mi
-          requests:
-            cpu: 100m
-            memory: 200Mi
-        volumeMounts:
+        - name: redis
+          image: redis
+          resources:
+            limits:
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          volumeMounts:
+            - name: logs
+              mountPath: /data/logs
+      volumes:
         - name: logs
-           # Criar este diretório com mkdir antes
-           # mkdir /home/ambientelivre/hacks/k8s/volumes/disk_redis -p
-          mountPath: /home/ambientelivre/k8s/volumes/disk_redis 
+          hostPath:
+            path: /home/ambientelivre/k8s/volumes/disk_redis
+            type: DirectoryOrCreate
